@@ -8,9 +8,13 @@
 
 module Models where
 
-import Database.Persist.TH
+import Data.Text
+import Data.Time.Clock
 
-share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
+import Database.Persist.TH
+import Snap.Snaplet.Auth.Backends.Persistent (authEntityDefs)
+
+share [mkPersist sqlSettings, mkMigrate "migrateAll"] $ authEntityDefs ++ [persistLowerCase|
   BlogPost
     title String
     content String
