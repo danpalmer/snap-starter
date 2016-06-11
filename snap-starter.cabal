@@ -32,7 +32,10 @@ Executable snap-starter
     xmlhtml                   >= 0.1     && < 0.3,
     base                      >= 4.4      && < 5,
     lens                      >= 3.7.6    && < 4.14,
-    snaplet-persistent        >= 0.5     &&  < 0.6
+    snaplet-persistent        >= 0.5     &&  < 0.6,
+    persistent,
+    persistent-template,
+    persistent-postgresql
 
   if flag(development)
     build-depends:
