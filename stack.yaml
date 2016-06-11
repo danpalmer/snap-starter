@@ -1,6 +1,10 @@
 resolver: lts-6.2
 packages:
   - '.'
+  - location:
+      git: git@github.com:danpalmer/snaplet-persistent
+      commit: 0b32ad8
+    extra-dep: true
 extra-deps:
   - snap-loader-static-0.9.0.2
   - snap-loader-dynamic-0.10.0.4

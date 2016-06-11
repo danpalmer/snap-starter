@@ -31,7 +31,8 @@ Executable snap-starter
     time                      >= 1.1     && < 1.6,
     xmlhtml                   >= 0.1     && < 0.3,
     base                      >= 4.4      && < 5,
-    lens                      >= 3.7.6    && < 4.14
+    lens                      >= 3.7.6    && < 4.14,
+    snaplet-persistent        >= 0.5     &&  < 0.6
 
   if flag(development)
     build-depends:
