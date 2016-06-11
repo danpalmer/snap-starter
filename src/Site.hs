@@ -10,13 +10,14 @@ module Site
 
 ------------------------------------------------------------------------------
 import           Control.Applicative
+import           Control.Lens.Getter
 import           Data.ByteString (ByteString)
 import           Data.Monoid
 import qualified Data.Text as T
 import           Snap.Core
 import           Snap.Snaplet
 import           Snap.Snaplet.Auth
-import           Snap.Snaplet.Auth.Backends.JsonFile
+import           Snap.Snaplet.Auth.Backends.Persistent
 import           Snap.Snaplet.Persistent
 import           Snap.Snaplet.Heist
 import           Snap.Snaplet.Session.Backends.CookieSession
@@ -83,11 +84,8 @@ app = makeSnaplet "app" "An snaplet example application." Nothing $ do
 
     p <- nestSnaplet "" db $ initPersist (runMigrationUnsafe migrateAll)
 
-    -- NOTE: We're using initJsonFileAuthManager here because it's easy and
-    -- doesn't require any kind of database server to run.  In practice,
-    -- you'll probably want to change this to a more robust auth backend.
-    a <- nestSnaplet "auth" auth $
-           initJsonFileAuthManager defAuthSettings sess "users.json"
+    a <- nestSnaplet "auth" auth $ initPersistAuthManager sess (persistPool $ view snapletValue p)
+
     addRoutes routes
     addAuthSplices h auth
     return $ App h s a p
