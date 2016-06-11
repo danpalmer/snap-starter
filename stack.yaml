@@ -1,6 +1,8 @@
 resolver: lts-6.2
 packages:
   - '.'
-extra-deps: []
+extra-deps:
+  - snap-loader-static-0.9.0.2
+  - snap-loader-dynamic-0.10.0.4
 flags: {}
 extra-package-dbs: []

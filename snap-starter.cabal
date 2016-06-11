@@ -26,7 +26,7 @@ Executable snap-starter
     snap                      >= 0.13    && < 0.15,
     snap-core                 >= 0.9     && < 0.10,
     snap-server               >= 0.9     && < 0.10,
-    --snap-loader-static        >= 0.9     && < 0.10,
+    snap-loader-static        >= 0.9     && < 0.10,
     text                      >= 0.11    && < 1.3,
     time                      >= 1.1     && < 1.6,
     xmlhtml                   >= 0.1     && < 0.3,
