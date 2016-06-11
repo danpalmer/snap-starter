@@ -17,13 +17,16 @@ import           Snap.Core
 import           Snap.Snaplet
 import           Snap.Snaplet.Auth
 import           Snap.Snaplet.Auth.Backends.JsonFile
+import           Snap.Snaplet.Persistent
 import           Snap.Snaplet.Heist
 import           Snap.Snaplet.Session.Backends.CookieSession
 import           Snap.Util.FileServe
 import           Heist
 import qualified Heist.Interpreted as I
+import           Database.Persist.Postgresql
 ------------------------------------------------------------------------------
 import           Application
+import           Models
 
 
 ------------------------------------------------------------------------------
@@ -78,6 +81,8 @@ app = makeSnaplet "app" "An snaplet example application." Nothing $ do
     s <- nestSnaplet "sess" sess $
            initCookieSessionManager "site_key.txt" "sess" (Just 3600)
 
+    p <- nestSnaplet "" db $ initPersist (runMigrationUnsafe migrateAll)
+
     -- NOTE: We're using initJsonFileAuthManager here because it's easy and
     -- doesn't require any kind of database server to run.  In practice,
     -- you'll probably want to change this to a more robust auth backend.
@@ -85,5 +90,4 @@ app = makeSnaplet "app" "An snaplet example application." Nothing $ do
            initJsonFileAuthManager defAuthSettings sess "users.json"
     addRoutes routes
     addAuthSplices h auth
-    return $ App h s a
-
+    return $ App h s a p
