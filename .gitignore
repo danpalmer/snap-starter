@@ -21,3 +21,4 @@ cabal.project.local
 log/
 site_key.txt
 snaplets/persist/devel.cfg
+snaplets/persist-auth/devel.cfg
