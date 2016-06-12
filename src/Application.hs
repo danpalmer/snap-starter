@@ -1,4 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 ------------------------------------------------------------------------------
 -- | This module defines our application's state type and an alias for its
@@ -25,6 +26,12 @@ makeLenses ''App
 
 instance HasHeist App where
     heistLens = subSnaplet heist
+
+instance HasPersistPool (Handler a App) where
+    getPersistPool = with db getPersistPool
+
+instance HasPersistPool (Handler App (AuthManager App)) where
+    getPersistPool = withTop db getPersistPool
 
 
 ------------------------------------------------------------------------------
