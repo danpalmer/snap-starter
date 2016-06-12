@@ -64,11 +64,27 @@ handleNewUser = method GET handleForm <|> method POST handleFormSubmit
 
 
 ------------------------------------------------------------------------------
+-- | Handle the blog posts view when logged in
+handleBlogPosts :: Handler App (AuthManager App) ()
+handleBlogPosts = do
+  blogPosts <- runPersist selectBlogPosts
+  renderWithSplices "blog_posts" (splices blogPosts)
+  where
+    splices bps =
+      "blogPosts" ## I.mapSplices (I.runChildrenWith . splicesFromBlogPost) bps
+
+    splicesFromBlogPost p = do
+      "title" ## I.textSplice (T.pack (blogPostTitle p))
+      "postContent" ## I.textSplice (T.pack (blogPostContent p))
+
+
+------------------------------------------------------------------------------
 -- | The application's routes.
 routes :: [(ByteString, Handler App App ())]
 routes = [ ("/login",    with auth handleLoginSubmit)
          , ("/logout",   with auth handleLogout)
          , ("/new_user", with auth handleNewUser)
+         , ("/posts",    with auth handleBlogPosts)
          , ("",          serveDirectory "static")
          ]
 
